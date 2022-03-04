@@ -211,6 +211,12 @@
     {### END POST BODY ###}
     {#####################}
 
+    {% if config.post_end_tag.enabled and not is_index %}
+      <div>
+        {% include 'post-end-tag.swig' %}
+      </div>
+    {% endif %}
+
     {%- if theme.related_posts.enable and (theme.related_posts.display_in_home or not is_index) %}
       {{ partial('_partials/post/post-related.swig') }}
     {%- endif %}
@@ -239,7 +245,7 @@
           {%- endif %}
           <div class="post-tags">
             {%- for tag in post.tags.toArray() %}
-              <a href="{{ url_for(tag.path) }}" rel="tag">{{ tag_indicate }} {{ tag.name }}</a>
+              <a href="{{ url_for(tag.path) }}" rel="tag"><i class="fa fa-tags"></i> {{ tag.name }}</a>
             {%- endfor %}
           </div>
         {%- endif %}
