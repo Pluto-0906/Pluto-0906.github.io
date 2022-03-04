@@ -1,0 +1,1 @@
+{% include '../../_custom/post-details.swig' %}
