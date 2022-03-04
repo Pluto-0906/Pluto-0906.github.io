@@ -105,3 +105,10 @@ deploy:
   type: git
   repository: https://github.com/Pluto-0906/Pluto-0906.github.io.git  #你的仓库地址
   branch: main
+
+# 本地搜索
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 100
