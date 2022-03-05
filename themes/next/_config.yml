@@ -380,11 +380,11 @@ back2top:
   # Back to top in sidebar.
   sidebar: false
   # Scroll percent label in b2t button.
-  scrollpercent: false
+  scrollpercent: true
 
 # Reading progress bar
 reading_progress:
-  enable: true
+  enable: false
   # Available values: top | bottom
   position: top
   color: "#37c6c0"
@@ -723,7 +723,7 @@ firestore:
 # Show Views / Visitors of the website / page with busuanzi.
 # Get more information on http://ibruce.info/2015/04/04/busuanzi
 busuanzi_count:
-  enable: false              # 设true 开启
+  enable: true              # 设true 开启
   total_visitors: true       # 总阅读人数（uv数）
   total_visitors_icon: user  # 阅读总人数的图标
   total_views: true          # 总阅读次数（pv数）
@@ -861,7 +861,7 @@ pace:
   # Themes list:
   # big-counter | bounce | barber-shop | center-atom | center-circle | center-radar | center-simple
   # corner-indicator | fill-left | flat-top | flash | loading-bar | mac-osx | material | minimal
-  theme: minimal
+  theme: big-counter
 
 # JavaScript 3D library.
 # Dependencies: https://github.com/theme-next/theme-next-three
