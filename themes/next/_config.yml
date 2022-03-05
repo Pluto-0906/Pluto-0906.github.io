@@ -97,7 +97,7 @@ creative_commons:
   license: by-nc-sa
   size: small
   sidebar: false
-  post: true       # 默认显示版权信息
+  post: false       # 默认显示版权信息
   language: zh-CN
 
 
@@ -384,7 +384,7 @@ back2top:
 
 # Reading progress bar
 reading_progress:
-  enable: false
+  enable: true
   # Available values: top | bottom
   position: top
   color: "#37c6c0"
@@ -528,7 +528,7 @@ pjax: false
 
 # FancyBox is a tool that offers a nice and elegant way to add zooming functionality for images.
 # For more information: https://fancyapps.com/fancybox
-fancybox: false
+fancybox: true
 
 # A JavaScript library for zooming images like Medium.
 # Do not enable both `fancybox` and `mediumzoom`.
