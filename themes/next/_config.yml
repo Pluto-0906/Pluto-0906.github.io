@@ -97,7 +97,7 @@ creative_commons:
   license: by-nc-sa
   size: small
   sidebar: false
-  post: false       # 默认显示版权信息
+  post: true       # 默认显示版权信息
   language: zh-CN
 
 
