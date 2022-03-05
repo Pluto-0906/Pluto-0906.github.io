@@ -211,9 +211,9 @@
     {### END POST BODY ###}
     {#####################}
 
-    {% if config.post_end_tag.enabled and not is_index %}
+    {% if not is_index and theme.passage_end_tag.enabled %}
       <div>
-        {% include 'post-end-tag.swig' %}
+        {% include 'passage-end-tag.swig' %}
       </div>
     {% endif %}
 
