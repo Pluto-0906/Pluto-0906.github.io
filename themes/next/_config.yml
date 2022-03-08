@@ -31,7 +31,7 @@ custom_file_path:
   #bodyEnd: source/_data/body-end.swig
   #variable: source/_data/variables.styl
   #mixin: source/_data/mixins.styl
-  #style: source/_data/styles.styl
+  # style: source/_data/styles.styl
 
 
 # ---------------------------------------------------------------
@@ -188,8 +188,8 @@ site_state: true
 # Value before `||` delimiter is the target permalink, value after `||` delimiter is the name of Font Awesome icon.
 social:
   GitHub: https://github.com/Pluto-0906 || fab fa-github
-  # 力扣: https://leetcode-cn.com/u/pluto-0906 || iconfont icon-leetcode
-  # 知乎: https://www.zhihu.com/people/jue-chen-67-88 || iconfont icon-zhihu-circle-fill
+  # 力扣: https://leetcode-cn.com/u/pluto-0906 || fab fa-java
+  # zhihu: https://www.zhihu.com/people/jue-chen-67-88 || fab fa-zhihu
   
   #E-Mail: mailto:yourname@gmail.com || fa fa-envelope
   #Weibo: https://weibo.com/yourname || fab fa-weibo
