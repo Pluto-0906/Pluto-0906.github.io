@@ -3,4 +3,6 @@ title: 我自己
 date: 2022-03-05 00:31:49
 ---
 
-input -> output
+学习需要：**input -> output**
+
+算法，cv，后端都只会一点点...
