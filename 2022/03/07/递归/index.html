@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"sota.ml","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言 在开始这篇文章之前，首先转载一篇我个人认为写的非常好的博客：三道题套路解决递归问题，希望在读我这篇文章之前大家一定要先去看一看。我非常感谢这篇博客的帮助，正是它打开了我对递归理解的大门，让我不再只会用递归写求解斐波那契数列[dog]。 本篇文章主要是为了记录我自身对递归的理解，也会集合百家之长，所以引用参考的所有博客希望大家都要去看一看，我将会持续更新！ 递归解题三部曲  找整个递">
+<meta property="og:type" content="article">
+<meta property="og:title" content="递归">
+<meta property="og:url" content="https://sota.ml/2022/03/07/%E9%80%92%E5%BD%92/index.html">
+<meta property="og:site_name" content="布鲁托の博客">
+<meta property="og:description" content="前言 在开始这篇文章之前，首先转载一篇我个人认为写的非常好的博客：三道题套路解决递归问题，希望在读我这篇文章之前大家一定要先去看一看。我非常感谢这篇博客的帮助，正是它打开了我对递归理解的大门，让我不再只会用递归写求解斐波那契数列[dog]。 本篇文章主要是为了记录我自身对递归的理解，也会集合百家之长，所以引用参考的所有博客希望大家都要去看一看，我将会持续更新！ 递归解题三部曲  找整个递">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-06T18:20:50.000Z">
+<meta property="article:modified_time" content="2022-03-18T14:48:34.852Z">
+<meta property="article:author" content="pluto">
+<meta property="article:tag" content="算法思想">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://sota.ml/2022/03/07/%E9%80%92%E5%BD%92/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://sota.ml/2022/03/07/%E9%80%92%E5%BD%92/","path":"2022/03/07/递归/","title":"递归"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>递归 | 布鲁托の博客</title>
+  
+
+
+
+
+<link rel="dns-prefetch" href="waline-nine-phi.vercel.app">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="布鲁托の博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">布鲁托の博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">6</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">5</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E8%A7%A3%E9%A2%98%E4%B8%89%E9%83%A8%E6%9B%B2"><span class="nav-number">2.</span> <span class="nav-text">递归解题三部曲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AA%E4%BA%BA%E7%BB%88%E6%9E%81%E7%90%86%E8%A7%A3"><span class="nav-number">3.</span> <span class="nav-text">个人终极理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E7%B1%BB%E5%9E%8B%E9%A2%98%E7%9B%AE"><span class="nav-number">4.</span> <span class="nav-text">二叉树类型题目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E9%9C%80%E6%9E%84%E9%80%A0%E8%BE%85%E5%8A%A9%E5%87%BD%E6%95%B0"><span class="nav-number">4.1.</span> <span class="nav-text">无需构造辅助函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%90%8C%E7%9A%84%E6%A0%91"><span class="nav-number">4.1.1.</span> <span class="nav-text">100.相同的树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E5%A4%A7%E6%B7%B1%E5%BA%A6"><span class="nav-number">4.1.2.</span> <span class="nav-text">104.二叉树的最大深度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-number">4.1.3.</span> <span class="nav-text">110.平衡二叉树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E5%80%BC%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-number">4.1.4.</span> <span class="nav-text">965.单值二叉树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BF%BB%E8%BD%AC%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-number">4.1.5.</span> <span class="nav-text">226.翻转二叉树</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E6%9E%84%E9%80%A0%E8%BE%85%E5%8A%A9%E5%87%BD%E6%95%B0"><span class="nav-number">4.2.</span> <span class="nav-text">需要构造辅助函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%A6%E4%B8%80%E9%A2%97%E6%A0%91%E7%9A%84%E5%AD%90%E6%A0%91"><span class="nav-number">4.2.1.</span> <span class="nav-text">572.另一颗树的子树</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="pluto"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">pluto</p>
+  <div class="site-description" itemprop="description">选择有时候比努力更重要</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Pluto-0906" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Pluto-0906" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://sota.ml/2022/03/07/%E9%80%92%E5%BD%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="pluto">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="布鲁托の博客">
+      <meta itemprop="description" content="选择有时候比努力更重要">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="递归 | 布鲁托の博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          递归
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-07 02:20:50" itemprop="dateCreated datePublished" datetime="2022-03-07T02:20:50+08:00">2022-03-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-18 22:48:34" itemprop="dateModified" datetime="2022-03-18T22:48:34+08:00">2022-03-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">算法笔记</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2022/03/07/%E9%80%92%E5%BD%92/#waline-comments" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" id="/2022/03/07/%E9%80%92%E5%BD%92/" data-xid="/2022/03/07/%E9%80%92%E5%BD%92/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言">前言</h2>
+<p>在开始这篇文章之前，首先转载一篇我个人认为写的非常好的博客：<a target="_blank" rel="noopener" href="https://lyl0724.github.io/2020/01/25/1/">三道题套路解决递归问题</a>，希望在读我这篇文章之前大家<strong>一定要先去看一看。</strong>我非常感谢这篇博客的帮助，正是它打开了我对递归理解的大门，让我不再只会用递归写求解斐波那契数列[dog]。</p>
+<p>本篇文章主要是为了记录我自身对递归的理解，也会集合百家之长，所以引用参考的所有博客希望大家都要去看一看，<strong>我将会持续更新！</strong></p>
+<h2 id="递归解题三部曲">递归解题三部曲</h2>
+<ol type="1">
+<li><strong>找整个递归的终止条件：递归应该在什么时候结束？</strong></li>
+<li><strong>找返回值：应该给上一级返回什么信息？</strong></li>
+<li><strong>本级递归应该做什么：在这一级递归中，应该完成什么任务？</strong></li>
+</ol>
+<h2 id="个人终极理解">个人终极理解</h2>
+<p><strong>递归函数就是黑盒</strong>，我们只需要关注它所实现的功能即可，至于具体的实现过程，那交给计算机自己去处理吧！</p>
+<p>而我们在求解过程中，最需要培养的是什么？<strong>抽象</strong>！</p>
+<p>接下来将会用题目辅助理解！</p>
+<h2 id="二叉树类型题目">二叉树类型题目</h2>
+<p>二叉树问题是非常典型的可以用递归解决的问题，这里再推荐两篇非常优秀的题解/题单：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof/solution/yi-pian-wen-zhang-dai-ni-chi-tou-dui-che-uhgs/">一篇文章带你吃透对称性递归(思路分析+解题模板+案例解读)</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/7018181330596790285">字节高频算法题，面试必考之递归算法解题套路</a></li>
+</ul>
+<p>可以试着练一练手~</p>
+<p>根据前面所提到第一篇题解中大佬总结的规律，对称性递归问题可以分成两类：</p>
+<ol type="1">
+<li>不需要构造辅助函数
+<ul>
+<li>单树问题</li>
+<li>双树问题</li>
+</ul></li>
+<li>需要构造辅助函数</li>
+</ol>
+<p>在此引用一下大佬总结的<strong>解题模板</strong></p>
+<ol type="1">
+<li><p>递归结束条件：特殊情况的判断</p>
+<ul>
+<li><p>单树问题</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="literal">true</span>/<span class="literal">false</span>;</span><br><span class="line"><span class="keyword">if</span>(!root-&gt;left) <span class="keyword">return</span> <span class="literal">true</span>/<span class="literal">false</span>/递归函数;</span><br><span class="line"><span class="keyword">if</span>(!root-&gt;right) <span class="keyword">return</span> <span class="literal">true</span>/<span class="literal">false</span>/递归函数;</span><br></pre></td></tr></table></figure></li>
+<li><p>双树问题（根节点分别为p,q）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!p &amp;&amp; !q)<span class="keyword">return</span> <span class="literal">true</span>/<span class="literal">false</span>;</span><br><span class="line"><span class="keyword">if</span>(!p || !q)<span class="keyword">return</span> <span class="literal">true</span>/<span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+<p>当然也不完全是这些情况，比如有的需要加上节点值的判断，需要具体问题需要具体分析</p></li>
+</ul></li>
+<li><p>返回值</p>
+<p>通常通常对称性递归的返回值是多个条件的复合判断语句，可能是以下几种条件判断的组合：</p>
+<ul>
+<li>节点非空的判断</li>
+<li>节点值的比较</li>
+<li>(单树)调用根节点左右子树的递归函数进行递归判断</li>
+<li>(双树)调用两棵树的左右子树的递归函数进行判断</li>
+</ul></li>
+</ol>
+<p>以下将会用题目来方便大家掌握理解，也是一个<strong>参考练手题单</strong>，希望大家先自己做题，这样收获很大！</p>
+<h3 id="无需构造辅助函数">无需构造辅助函数</h3>
+<h4 id="相同的树"><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/same-tree/">100.相同的树</a></h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isSameTree</span><span class="params">(TreeNode* p, TreeNode* q)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 纯模板题，首先判断树的根节点情况，然后再其判断左右子树情况</span></span><br><span class="line">        <span class="keyword">if</span>(!p &amp;&amp; !q) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(!p || !q) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> (p -&gt; val == q -&gt; val) &amp;&amp; <span class="built_in">isSameTree</span>(p -&gt; left, q -&gt; left) &amp;&amp; <span class="built_in">isSameTree</span>(p -&gt; right, q -&gt; right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="二叉树的最大深度"><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/">104.二叉树的最大深度</a></h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(<span class="built_in">maxDepth</span>(root -&gt; left), <span class="built_in">maxDepth</span>(root -&gt; right)) + <span class="number">1</span>;   </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="平衡二叉树"><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/balanced-binary-tree/">110.平衡二叉树</a></h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isBalanced</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">height</span>(root) == <span class="number">-1</span> ?  <span class="literal">false</span> : <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">height</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> left = <span class="built_in">height</span>(root-&gt;left);</span><br><span class="line">        <span class="type">int</span> right = <span class="built_in">height</span>(root-&gt;right);</span><br><span class="line">        <span class="keyword">if</span>(left == <span class="number">-1</span> || right == <span class="number">-1</span> || <span class="built_in">abs</span>(left - right) &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(left, right) + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="单值二叉树"><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/univalued-binary-tree/">965.单值二叉树</a></h4>
+<p>其实这个题解跟大多数人的还是不太一样的，我的做法是一种<strong>自底向上</strong>的过程，得弄清楚函数返回值的含义，返回的是当前左右子树是否为单值二叉树，也就是return的最后两个条件。然后你只需要判断当前根节点和其左右节点的值是否相同，这里有个比较trick的地方是前两个条件的写法，意思是如果左右子树为空，那么直接返回true，然后再判断不空的情况下值的情况，主要是前两个条件相对比较难写~</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isUnivalTree</span><span class="params">(TreeNode*root)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root) </span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span> (!root-&gt;left || root-&gt;left-&gt;val == root-&gt;val) &amp;&amp; (!root-&gt;right || root-&gt;right-&gt;val == root-&gt;val) &amp;&amp; <span class="built_in">isUnivalTree</span>(root-&gt;left) &amp;&amp; <span class="built_in">isUnivalTree</span>(root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>下面给出<strong>自顶向下</strong>的题解，也就是先判断当前点是否符合，然后再看它的左右节点所代表的的子树是否符合。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isUnivalTree</span><span class="params">(TreeNode*root)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> ((root-&gt;left &amp;&amp; root-&gt;left-&gt;val != root-&gt;val) || (root-&gt;right &amp;&amp; root-&gt;right-&gt;val != root-&gt;val))</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>; </span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">isUnivalTree</span>(root-&gt;left) &amp;&amp; <span class="built_in">isUnivalTree</span>(root-&gt;right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="翻转二叉树"><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/invert-binary-tree/">226.翻转二叉树</a></h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TreeNode* <span class="title">invertTree</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root || !root-&gt;left &amp;&amp; !root-&gt;right) <span class="keyword">return</span> root;</span><br><span class="line">        TreeNode* tmp = <span class="built_in">invertTree</span>(root-&gt;right);</span><br><span class="line">        root-&gt;right = <span class="built_in">invertTree</span>(root-&gt;left);</span><br><span class="line">        root-&gt;left = tmp;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="需要构造辅助函数">需要构造辅助函数</h3>
+<h4 id="另一颗树的子树"><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/subtree-of-another-tree/">572.另一颗树的子树</a></h4>
+<p>这个题目虽然难度是简单，但个人认为是目前为止最难的一题了，<strong>很值得做一下！</strong></p>
+<p>以下代码取自<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/subtree-of-another-tree/solution/ling-yi-ke-shu-de-zi-shu-di-gui-by-trave-chyb/">traveller-lzx</a>大佬，个人认为最好理解~</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">compare</span><span class="params">(TreeNode* root, TreeNode* subRoot)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//如果两个都为空</span></span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">NULL</span>&amp;&amp;subRoot==<span class="literal">NULL</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//如果只有一个为空</span></span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">NULL</span>||subRoot==<span class="literal">NULL</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//如果两个都不空，结点值也不同，那直接返回false</span></span><br><span class="line">        <span class="keyword">if</span>(root-&gt;val!=subRoot-&gt;val)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//如果现在结点值和子树结点值相同，再分别检查两个的左右孩子</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">compare</span>(root-&gt;left, subRoot-&gt;left) &amp;&amp; <span class="built_in">compare</span>(root-&gt;right, subRoot-&gt;right);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isSubtree</span><span class="params">(TreeNode* root, TreeNode* subRoot)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//如果要检查的子树为空，那么不用查了，肯定对的</span></span><br><span class="line">        <span class="keyword">if</span>(subRoot == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//如果要检查的子树不空，但root是空的，那也不用查了，错的。</span></span><br><span class="line">        <span class="keyword">if</span>(root == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//要么是它本身，要么是它左子树，要么是它的右子树</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">compare</span>(root, subRoot) || <span class="built_in">isSubtree</span>(root-&gt;left, subRoot) || <span class="built_in">isSubtree</span>(root-&gt;right, subRoot);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<hr />
+<p>To be continued~</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>pluto
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://sota.ml/2022/03/07/%E9%80%92%E5%BD%92/" title="递归">https://sota.ml/2022/03/07/递归/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3/" rel="tag"># 算法思想</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/03/06/%E6%9C%80%E7%9F%AD%E8%B7%AF%E7%AE%97%E6%B3%95/" rel="prev" title="最短路算法">
+                  <i class="fa fa-chevron-left"></i> 最短路算法
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/03/11/%E4%BF%9D%E7%A0%94%E5%89%8D%E5%AD%A6%E4%B9%A0%E5%8E%86%E7%A8%8B%E8%AE%B0%E5%BD%95/" rel="next" title="保研前学习历程记录">
+                  保研前学习历程记录 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; Thu Mar 10 2022 08:00:00 GMT+0800 (中国标准时间) – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pluto</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">15k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">13 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"waline-nine-phi.vercel.app","placeholder":"请文明评论呀","avatar":"mm","pageSize":10,"visitor":false,"comment_count":true,"requiredFields":[],"meta":["nick","mail","link"],"libUrl":"https://cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js","el":"#waline-comments","path":"/2022/03/07/%E9%80%92%E5%BD%92/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() => 
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => {
+    new Waline(CONFIG.waline);
+  });
+});
+</script>
+</body>
+</html>
