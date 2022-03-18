@@ -6,7 +6,7 @@
   <link href="https://sota.ml/atom.xml" rel="self"/>
   
   <link href="https://sota.ml/"/>
-  <updated>2022-03-18T14:48:50.186Z</updated>
+  <updated>2022-03-18T15:45:12.865Z</updated>
   <id>https://sota.ml/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://sota.ml/2022/03/18/%E5%B8%83%E9%B2%81%E6%89%98%E7%9A%84%E5%8A%9B%E6%89%A3%E8%AE%B0%E5%BD%95001%E2%80%94%E7%BB%84%E5%90%88/"/>
     <id>https://sota.ml/2022/03/18/%E5%B8%83%E9%B2%81%E6%89%98%E7%9A%84%E5%8A%9B%E6%89%A3%E8%AE%B0%E5%BD%95001%E2%80%94%E7%BB%84%E5%90%88/</id>
     <published>2022-03-17T17:27:29.000Z</published>
-    <updated>2022-03-18T14:48:50.186Z</updated>
+    <updated>2022-03-18T15:45:12.865Z</updated>
     
     
       
@@ -42,7 +42,7 @@
     
     <category term="回溯算法" scheme="https://sota.ml/tags/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/"/>
     
-    <category term="backtracking" scheme="https://sota.ml/tags/backtracking/"/>
+    <category term="剪枝" scheme="https://sota.ml/tags/%E5%89%AA%E6%9E%9D/"/>
     
   </entry>
   
@@ -77,7 +77,7 @@
     <link href="https://sota.ml/2022/03/11/%E4%BF%9D%E7%A0%94%E5%89%8D%E5%AD%A6%E4%B9%A0%E5%8E%86%E7%A8%8B%E8%AE%B0%E5%BD%95/"/>
     <id>https://sota.ml/2022/03/11/%E4%BF%9D%E7%A0%94%E5%89%8D%E5%AD%A6%E4%B9%A0%E5%8E%86%E7%A8%8B%E8%AE%B0%E5%BD%95/</id>
     <published>2022-03-11T13:37:05.000Z</published>
-    <updated>2022-03-18T14:48:34.850Z</updated>
+    <updated>2022-03-18T15:57:25.962Z</updated>
     
     
       
@@ -90,6 +90,8 @@
     
     
     
+    <category term="杂谈" scheme="https://sota.ml/categories/%E6%9D%82%E8%B0%88/"/>
+    
     
     <category term="学习记录" scheme="https://sota.ml/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
     
@@ -100,7 +102,7 @@
     <link href="https://sota.ml/2022/03/07/%E9%80%92%E5%BD%92/"/>
     <id>https://sota.ml/2022/03/07/%E9%80%92%E5%BD%92/</id>
     <published>2022-03-06T18:20:50.000Z</published>
-    <updated>2022-03-18T14:48:34.852Z</updated>
+    <updated>2022-03-18T15:45:20.095Z</updated>
     
     
       
@@ -117,7 +119,7 @@
     <category term="算法笔记" scheme="https://sota.ml/categories/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="算法思想" scheme="https://sota.ml/tags/%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3/"/>
+    <category term="递归" scheme="https://sota.ml/tags/%E9%80%92%E5%BD%92/"/>
     
   </entry>
   
