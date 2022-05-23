@@ -1,39 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>布鲁托的力扣记录001—组合</title>
-    <url>/2022/03/18/%E5%B8%83%E9%B2%81%E6%89%98%E7%9A%84%E5%8A%9B%E6%89%A3%E8%AE%B0%E5%BD%95001%E2%80%94%E7%BB%84%E5%90%88/</url>
-    <content><![CDATA[<h2 id="前言">前言</h2>
-<p>一直以来都有写题解的想法，今天在此付诸实践，这是个人对于力扣刷题记录的第一篇，偏向于对AcWing学习的补充与强化，希望能够记录自己的进步~</p>
-<h2 id="题目">题目</h2>
-<p><a href="https://leetcode-cn.com/problems/combinations/">77. 组合</a></p>
-<h2 id="思路">思路</h2>
-<p>这道题是回溯问题中比较经典的组合问题，可以将问题转化为一个多叉树进行解决，有固定的的代码模板，可以参考这里：<a href="https://programmercarl.com/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80.html#%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%A8%A1%E6%9D%BF">代码随想录：回溯法模板</a></p>
-<h2 id="代码">代码</h2>
-<h3 id="未剪枝">未剪枝</h3>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">combine</span>(<span class="type">int</span> n, <span class="type">int</span> k) &#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; res;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; comb;</span><br><span class="line">        <span class="built_in">backtracking</span>(res, comb, <span class="number">1</span>, n, k);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">backtracking</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; res, vector&lt;<span class="type">int</span>&gt; comb, </span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="type">int</span> stIdx, <span class="type">const</span> <span class="type">int</span>&amp; n, <span class="type">const</span> <span class="type">int</span>&amp; k)</span>  <span class="comment">// stIdx用来记录本层递归中，集合从哪里开始遍历</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(comb.<span class="built_in">size</span>() == k) </span><br><span class="line">        &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(comb);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = stIdx; i &lt;= n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            comb.<span class="built_in">push_back</span>(i);  <span class="comment">// 处理现场</span></span><br><span class="line">            <span class="built_in">backtracking</span>(res, comb, i + <span class="number">1</span>, n, k);</span><br><span class="line">            comb.<span class="built_in">pop_back</span>();  <span class="comment">// 恢复现场</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>对于stIdx的解释：</strong></p>
-<p>每次从集合中选取元素，可选择的范围随着选择的进行而收缩，调整可选择的范围，就是要靠这个stIdx</p>
-<h3 id="剪枝">剪枝</h3>
-<p><strong>剪枝思路：</strong></p>
-<p><img src="https://s2.loli.net/2022/03/18/5JuczsbgNIV4oeG.png" /></p>
-<p>当n = 4, k = 4时，外层的for循环从stIdx = 2开始其实是没有必要进行的，因为接下来的所有情况都没有办法达到所要求的组合个数k，所以可以直接剪枝；同理，在递归过程中也有不需要进行的步骤，如上图所示。</p>
-<p>所以我们就可以对for循环进行优化，本质就是<strong>加上判断条件/缩小遍历范围提前结束递归</strong>，考虑在遍历过程中，我们总共需要k个，现在某个时刻已经有了comb.size()个，那么还需要k-comb.size()个，那么此时的stIdx最大也不能超过n - (k - comb.size()) + 1，否则就根本达不到k个的要求，按上述分析进行剪枝操作，便可得到一下代码：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">combine</span>(<span class="type">int</span> n, <span class="type">int</span> k) &#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; res;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; comb;</span><br><span class="line">        <span class="built_in">backtracking</span>(res, comb, <span class="number">1</span>, n, k);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">backtracking</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; res, vector&lt;<span class="type">int</span>&gt; comb, </span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="type">int</span> stIdx, <span class="type">const</span> <span class="type">int</span>&amp; n, <span class="type">const</span> <span class="type">int</span>&amp; k)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(comb.<span class="built_in">size</span>() == k) </span><br><span class="line">        &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(comb);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = stIdx; i &lt;= n - (k - comb.<span class="built_in">size</span>()) + <span class="number">1</span>; i++)  <span class="comment">// 剪枝</span></span><br><span class="line">        &#123;</span><br><span class="line">            comb.<span class="built_in">push_back</span>(i);</span><br><span class="line">            <span class="built_in">backtracking</span>(res, comb, i + <span class="number">1</span>, n, k);</span><br><span class="line">            comb.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="举一反三">举一反三</h2>
+    <title>CVPR2022 Oral OGM-GE阅读笔记</title>
+    <url>/2022/05/24/CVPR2022-Oral-OGM-GE%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p>标题：Balanced Multimodal Learning via On-the-fly Gradient Modulation（CVPR 2022 Oral）</p>
+<p>论文：https://arxiv.org/abs/2203.15332</p>
+<p>领域：多模态学习</p>
+<h2 id="解决本质问题">解决本质问题</h2>
+<p>在某些多模态模型的训练过程中，性能更好的模态（主导模态）会对其他模态的优化产生抑制作用，因此导致的模态间训练的不平衡现象，单一模态存在欠优化。</p>
+<h2 id="方法">方法</h2>
+<p>文章主要从不同模态的梯度传播上入手，根据模态间的效果差异自适应地调制梯度，并结合高斯噪声的泛化性增强能力，提出了具有较强适用性的OGM-GE优化方法。</p>
+<h2 id="优点">优点</h2>
 <ul>
-<li><p><a href="https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/">17. 电话号码的字母组合</a></p></li>
-<li><p><a href="https://leetcode-cn.com/problems/combination-sum-iii/">216. 组合总和 III</a></p></li>
+<li>即插即用，很通用直观的工作</li>
+<li>实验详实，各项实验指标表明该方法的灵活有效性，应用在不同的encoder、fusion method以及优化器中都有一定提升，并且相比其他调节策略提升优势显著</li>
 </ul>
-<h2 id="参考">参考</h2>
-<p><a href="https://programmercarl.com/0077.%E7%BB%84%E5%90%88.html#%E5%9B%9E%E6%BA%AF%E6%B3%95%E4%B8%89%E9%83%A8%E6%9B%B2">代码随想录：组合问题</a></p>
+<h2 id="缺点">缺点</h2>
+<ul>
+<li>模态间的融合方式不仅只有论文中所详细阐述的concat方式，融合的阶段也不一定要在各自模态的encoder提完特征后，在某些任务中，不同模态的地位是不相同的，分清主次模态也是一个方法，因此本文的做法有一定局限性。</li>
+<li>本文动态调节梯度中的动态系数<span class="math inline">\(k_t\)</span>的设置方法是比较handmade的，模态差异率<span class="math inline">\(\rho_t^u\)</span>的定义符合intuition但也缺乏一定的数学解释证明，仅仅只是实验表明比较work。</li>
+<li>为了弥补因为动态减少强势模态梯度所造成的泛化性减小问题而再引入高斯噪声（GN）的方式感觉不够elegant，既然这样为啥不直接增强弱势模态梯度，加强随机梯度噪声，甚至不需要添加GN？</li>
+</ul>
+<h2 id="进一步思考">进一步思考</h2>
+<p><strong>如果是我，我该如何解决这个问题？</strong>这也是我一直以来在试着培养的科研思维，当然，idea is cheap，以下思路都尚待实验证明~</p>
+<h3 id="method1gradient-decent">method1：gradient decent</h3>
+<p>如上述缺点中提到的，既然可以减少强势模态梯度，同时增加GN，相反的，也可以尝试增强弱势模态梯度,加强随机梯度噪声,甚至不需要添加GN。</p>
+<h3 id="method2multi-task-learning">method2：multi task learning</h3>
+<p>为啥会想到这个，因为我觉得思想差不多！只不过多模态是multiple in，而多任务是multiple out。</p>
+<p>首先多任务学习可以通过不同子任务的互相约束，可以使网络减少归纳偏置、帮助收敛、提取共性特征来取得更好的性能，但是loss权重人为设定相当困难，为什么不让网络自己学习?</p>
+<h4 id="一种可行的方式"><strong>一种可行的方式</strong></h4>
+<p>参考论文：Multi-Task Learning Using Uncertainty to Weigh Losses for Scene Geometry and Semantics （CVPR 2018）</p>
+<p><img src="https://s2.loli.net/2022/05/24/32HhSVYwMoZiu4l.png" /></p>
+<p>本文通过建立贝叶斯模型，基于同方差不确定性建立了多任务的联合loss如下</p>
+<p><img src="https://s2.loli.net/2022/05/24/kejvnltmA7NUQb2.png" /></p>
+<p>对于更多任务的模型，根据任务类型也很容易拓展，网络将自动学习权重~</p>
+<h4 id="本任务中的应用流程"><strong>本任务中的应用流程</strong></h4>
+<p><img src="https://s2.loli.net/2022/05/12/kQjxFOY8XH9b5hL.png" /></p>
+<p>通过多任务加强整体任务性能，相对应的提升弱势模态优化效果。</p>
+<h3 id="method3knowledge-distill">method3：knowledge distill</h3>
+<p>由于强弱模态之间，存在学习和优化上的差异，可以类比老师和学生，一个学的好,一个学的不好，因此考虑知识蒸馏~</p>
+<p>KD整体架构如下：</p>
+<p>参考论文：Distilling the Knowledge in a Neural Network</p>
+<p><img src="https://s2.loli.net/2022/05/12/zukwviqE31xUlWd.png" /></p>
+<h4 id="一种可行的方式-1"><strong>一种可行的方式</strong></h4>
+<p>参考论文：There is More than Meets the Eye: Self-Supervised Multi-Object Detection and Tracking with Sound by Distilling Multimodal Knowledge （CVPR 2021）</p>
+<p><img src="https://s2.loli.net/2022/05/12/xtG1IHerKQb2Vid.png" /></p>
+<p>让teacher net（含有RGB、Depth、Themal多个模态）训练student net（Audio）然后让student net单独实现定位，MTA损失来对齐学生的中间表示与教师的中间表示。</p>
+<h4 id="本任务中的应用流程-1"><strong>本任务中的应用流程</strong></h4>
+<ol type="1">
+<li>gt教强模态train一个teacher net</li>
+<li>强模态教弱模态, 使用强模态的输出概率值而不是onehot向量对弱模态进行训练，train student net</li>
+<li>一般知识蒸馏的做法是单独用student去预测的，<strong>但这里可以进行模态fusion实现共同预测</strong>。</li>
+</ol>
+<p>解决的问题本质都是模态不均衡，但思路不同，这个方法侧重于使弱模态从本质上变强。</p>
+<p>该方法可能存在的问题：模态差异性太大，无法对齐导致效果不好。。。</p>
+<h3 id="method4self-supervised-learning">method4：self-supervised learning</h3>
+<p>原先的动态系数<span class="math inline">\(k_t\)</span>只对encoder部分进行动态调节，来使得弱势模态优化得到提升，这种方法是有点后天培养的意思，那么为啥不能直接就让encoder先天就比较厉害呢？这样我不怎么需要优化就perform well了~于是就想到了利用自监督，自监督是目前比较火的方向，通过在上游任务中先进行预训练然后应用到下游任务中往往效果比较好。</p>
+<h4 id="一种可行的方式-2"><strong>一种可行的方式</strong></h4>
+<p>参考论文:：Unsupervised learning of visual representations by solving jigsaw puzzles（ECCV 2016）</p>
+<p><img src="https://s2.loli.net/2022/05/24/tCMN6x4mTyXQulf.png" /></p>
+<p>为了恢复原始的小块，Noroozi等人提出了一个称为上下文无关网络（CFN）的神经网络，如下图所示。在这里，各个小块通过相同的共享权值的siamese卷积层传递。然后，将这些特征组合在一个全连接的层中。在输出中，模型必须预测在64个可能的排列类别中使用了哪个排列，如果我们知道排列的方式，我们就能解决这个难题。</p>
+<p><img src="https://s2.loli.net/2022/05/24/DbTRkrzQdBu73nN.png" /></p>
+<p>为了解决拼图问题，模型需要学习识别零件是如何在一个物体中组装的，物体不同部分的相对位置和物体的形状。因此，这些表示对于下游的分类和检测任务是有用的。</p>
+<h4 id="本任务中的应用流程-2"><strong>本任务中的应用流程</strong></h4>
+<ol type="1">
+<li>自监督预训练好各自模态的encoderA和encoderB</li>
+<li>按OGM-GE实验进行的架构进行Fine-tune</li>
+</ol>
+<h3 id="method5bilnearl-pooling">method5：bilnearl pooling</h3>
+<p>OGM-GE架构中存在的另一个问题是concat的方式模态之间融合还不够充分，哪怕实验中所展示的其他fusion方式也是比较的简单的，算是一阶融合，这样就导致互相之间不同模态特征之间融合太少，学习不够充分，也可能间接导致弱势模态学的不够好，因此可以<strong>改变融合策略考虑用二阶融合，比如二阶双线性池化</strong></p>
+<p>由于二阶双线性池化存在维度过高，计算量过大的问题，后续的很多work都对它进行降维处理，比较的典型的就是表征能力较强的MFB方法，由于本人对于vqa领域了解不深，故不在此展开。</p>
+<p><img src="https://s2.loli.net/2022/05/24/8oq7cyu1hEG2iAe.png" /></p>
 ]]></content>
-      <categories>
-        <category>LeetCode刷题记录</category>
-      </categories>
       <tags>
-        <tag>回溯算法</tag>
-        <tag>剪枝</tag>
+        <tag>DL</tag>
       </tags>
   </entry>
   <entry>
@@ -183,6 +223,42 @@
       </categories>
       <tags>
         <tag>图论</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>布鲁托的力扣记录001—组合</title>
+    <url>/2022/03/18/%E5%B8%83%E9%B2%81%E6%89%98%E7%9A%84%E5%8A%9B%E6%89%A3%E8%AE%B0%E5%BD%95001%E2%80%94%E7%BB%84%E5%90%88/</url>
+    <content><![CDATA[<h2 id="前言">前言</h2>
+<p>一直以来都有写题解的想法，今天在此付诸实践，这是个人对于力扣刷题记录的第一篇，偏向于对AcWing学习的补充与强化，希望能够记录自己的进步~</p>
+<h2 id="题目">题目</h2>
+<p><a href="https://leetcode-cn.com/problems/combinations/">77. 组合</a></p>
+<h2 id="思路">思路</h2>
+<p>这道题是回溯问题中比较经典的组合问题，可以将问题转化为一个多叉树进行解决，有固定的的代码模板，可以参考这里：<a href="https://programmercarl.com/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80.html#%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%A8%A1%E6%9D%BF">代码随想录：回溯法模板</a></p>
+<h2 id="代码">代码</h2>
+<h3 id="未剪枝">未剪枝</h3>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">combine</span>(<span class="type">int</span> n, <span class="type">int</span> k) &#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; res;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; comb;</span><br><span class="line">        <span class="built_in">backtracking</span>(res, comb, <span class="number">1</span>, n, k);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">backtracking</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; res, vector&lt;<span class="type">int</span>&gt; comb, </span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="type">int</span> stIdx, <span class="type">const</span> <span class="type">int</span>&amp; n, <span class="type">const</span> <span class="type">int</span>&amp; k)</span>  <span class="comment">// stIdx用来记录本层递归中，集合从哪里开始遍历</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(comb.<span class="built_in">size</span>() == k) </span><br><span class="line">        &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(comb);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = stIdx; i &lt;= n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            comb.<span class="built_in">push_back</span>(i);  <span class="comment">// 处理现场</span></span><br><span class="line">            <span class="built_in">backtracking</span>(res, comb, i + <span class="number">1</span>, n, k);</span><br><span class="line">            comb.<span class="built_in">pop_back</span>();  <span class="comment">// 恢复现场</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>对于stIdx的解释：</strong></p>
+<p>每次从集合中选取元素，可选择的范围随着选择的进行而收缩，调整可选择的范围，就是要靠这个stIdx</p>
+<h3 id="剪枝">剪枝</h3>
+<p><strong>剪枝思路：</strong></p>
+<p><img src="https://s2.loli.net/2022/03/18/5JuczsbgNIV4oeG.png" /></p>
+<p>当n = 4, k = 4时，外层的for循环从stIdx = 2开始其实是没有必要进行的，因为接下来的所有情况都没有办法达到所要求的组合个数k，所以可以直接剪枝；同理，在递归过程中也有不需要进行的步骤，如上图所示。</p>
+<p>所以我们就可以对for循环进行优化，本质就是<strong>加上判断条件/缩小遍历范围提前结束递归</strong>，考虑在遍历过程中，我们总共需要k个，现在某个时刻已经有了comb.size()个，那么还需要k-comb.size()个，那么此时的stIdx最大也不能超过n - (k - comb.size()) + 1，否则就根本达不到k个的要求，按上述分析进行剪枝操作，便可得到一下代码：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">combine</span>(<span class="type">int</span> n, <span class="type">int</span> k) &#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; res;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; comb;</span><br><span class="line">        <span class="built_in">backtracking</span>(res, comb, <span class="number">1</span>, n, k);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">backtracking</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; res, vector&lt;<span class="type">int</span>&gt; comb, </span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="type">int</span> stIdx, <span class="type">const</span> <span class="type">int</span>&amp; n, <span class="type">const</span> <span class="type">int</span>&amp; k)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(comb.<span class="built_in">size</span>() == k) </span><br><span class="line">        &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(comb);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = stIdx; i &lt;= n - (k - comb.<span class="built_in">size</span>()) + <span class="number">1</span>; i++)  <span class="comment">// 剪枝</span></span><br><span class="line">        &#123;</span><br><span class="line">            comb.<span class="built_in">push_back</span>(i);</span><br><span class="line">            <span class="built_in">backtracking</span>(res, comb, i + <span class="number">1</span>, n, k);</span><br><span class="line">            comb.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="举一反三">举一反三</h2>
+<ul>
+<li><p><a href="https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/">17. 电话号码的字母组合</a></p></li>
+<li><p><a href="https://leetcode-cn.com/problems/combination-sum-iii/">216. 组合总和 III</a></p></li>
+</ul>
+<h2 id="参考">参考</h2>
+<p><a href="https://programmercarl.com/0077.%E7%BB%84%E5%90%88.html#%E5%9B%9E%E6%BA%AF%E6%B3%95%E4%B8%89%E9%83%A8%E6%9B%B2">代码随想录：组合问题</a></p>
+]]></content>
+      <categories>
+        <category>LeetCode刷题记录</category>
+      </categories>
+      <tags>
+        <tag>回溯算法</tag>
+        <tag>剪枝</tag>
       </tags>
   </entry>
   <entry>

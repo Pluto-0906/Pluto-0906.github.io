@@ -6,7 +6,7 @@
   <link href="https://sota.ml/atom.xml" rel="self"/>
   
   <link href="https://sota.ml/"/>
-  <updated>2022-04-02T16:29:55.315Z</updated>
+  <updated>2022-05-23T18:48:54.133Z</updated>
   <id>https://sota.ml/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CVPR2022 Oral OGM-GE阅读笔记</title>
+    <link href="https://sota.ml/2022/05/24/CVPR2022-Oral-OGM-GE%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
+    <id>https://sota.ml/2022/05/24/CVPR2022-Oral-OGM-GE%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</id>
+    <published>2022-05-23T18:47:57.000Z</published>
+    <updated>2022-05-23T18:48:54.133Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;标题：Balanced Multimodal Learning via On-the-fly Gradient Modulation（CVPR 2022</summary>
+        
+      
+    
+    
+    
+    
+    <category term="DL" scheme="https://sota.ml/tags/DL/"/>
+    
+  </entry>
   
   <entry>
     <title>状态压缩dp入门-蒙德里安的梦想</title>
